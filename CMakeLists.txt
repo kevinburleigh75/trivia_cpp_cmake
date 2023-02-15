@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
   Catch2 3 REQUIRED
-  PATHS ../catch_install
+  PATHS ./catch_install
   NO_DEFAULT_PATH
 )
 
