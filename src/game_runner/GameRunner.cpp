@@ -3,10 +3,16 @@
 
 static bool notAWinner;
 
-int main()
+int main(int argc, char** argv)
 {
+  if (argc == 1) {
+    srand(time(NULL));
+  }
+  else {
+    unsigned seed = stoi(argv[1]);
+    srand(seed);
+  }
 
-	srand(time(NULL));
 	Game aGame;
 
 	aGame.add("Chet");
