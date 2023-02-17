@@ -18,9 +18,9 @@ class Game
     bool   wrongAnswer ();
 
   private:
-    void   askQuestion();
-    string currentCategory();
-    bool   didPlayerWin();
+    void   askQuestion ();
+    string currentCategory ();
+    bool   stillNoWinner ();
 
   private:
     vector<string> players;

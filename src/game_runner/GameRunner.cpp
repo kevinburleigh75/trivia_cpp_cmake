@@ -20,17 +20,17 @@ int main(int argc, char** argv)
   aGame.add("Pat");
   aGame.add("Sue");
 
-  bool notAWinner = true;
+  bool still_no_winner = true;
 
   do
   {
     aGame.roll(rand() % 5 + 1);
 
     if (rand() % 9 == 7) {
-      notAWinner = aGame.wrongAnswer();
+      still_no_winner = aGame.wrongAnswer();
     }
     else {
-      notAWinner = aGame.wasCorrectlyAnswered();
+      still_no_winner = aGame.wasCorrectlyAnswered();
     }
-  } while (notAWinner);
+  } while (still_no_winner);
 }

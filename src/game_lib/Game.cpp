@@ -138,16 +138,8 @@ void Game::askQuestion()
 
 string Game::currentCategory()
 {
-  if (places[currentPlayer] ==  0) return "Pop";
-  if (places[currentPlayer] ==  4) return "Pop";
-  if (places[currentPlayer] ==  8) return "Pop";
-  if (places[currentPlayer] ==  1) return "Science";
-  if (places[currentPlayer] ==  5) return "Science";
-  if (places[currentPlayer] ==  9) return "Science";
-  if (places[currentPlayer] ==  2) return "Sports";
-  if (places[currentPlayer] ==  6) return "Sports";
-  if (places[currentPlayer] == 10) return "Sports";
-  return "Rock";
+  vector<string> categories = { "Pop", "Science", "Sports", "Rock" };
+  return  categories[places[currentPlayer] % 4];
 }
 
 bool Game::wasCorrectlyAnswered()
@@ -164,11 +156,11 @@ bool Game::wasCorrectlyAnswered()
            <<  " Gold Coins."
            << endl;
 
-      bool winner = didPlayerWin();
+      bool no_winner = stillNoWinner();
 
       currentPlayer = (currentPlayer + 1) % players.size();
 
-      return winner;
+      return no_winner;
     }
     else
     {
@@ -186,11 +178,11 @@ bool Game::wasCorrectlyAnswered()
          << " Gold Coins."
          << endl;
 
-    bool winner = didPlayerWin();
+    bool no_winner = stillNoWinner();
 
     currentPlayer = (currentPlayer + 1) % players.size();
 
-    return winner;
+    return no_winner;
   }
 }
 
@@ -205,7 +197,7 @@ bool Game::wrongAnswer()
   return true;
 }
 
-bool Game::didPlayerWin()
+bool Game::stillNoWinner()
 {
   return purses[currentPlayer] < 6;
 }
