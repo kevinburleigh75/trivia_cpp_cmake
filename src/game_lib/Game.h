@@ -11,7 +11,6 @@ class Game
   public:
     Game();
 
-    string createRockQuestion (int index);
     bool   isPlayable ();
     bool   add (string playerName);
     int    howManyPlayers ();

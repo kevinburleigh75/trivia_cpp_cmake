@@ -14,27 +14,30 @@ Game::Game()
 {
   for (int i = 0; i < 50; i++)
   {
-    ostringstream oss (ostringstream::out);
-    oss << "Pop Question " << i;
-    popQuestions.push_back(oss.str());
+    {
+      ostringstream oss (ostringstream::out);
+      oss << "Pop Question " << i;
+      popQuestions.push_back(oss.str());
+    }
 
-    char str[255];
-    sprintf(str, "Science Question %d", i);
-    scienceQuestions.push_back(str);
+    {
+      ostringstream oss (ostringstream::out);
+      oss << "Science Question " << i;
+      scienceQuestions.push_back(oss.str());
+    }
 
-    char str1[255];
-    sprintf(str1, "Sports Question %d", i);
-    sportsQuestions.push_back(str1);
+    {
+      ostringstream oss (ostringstream::out);
+      oss << "Sports Question " << i;
+      sportsQuestions.push_back(oss.str());
+    }
 
-    rockQuestions.push_back(createRockQuestion(i));
+    {
+      ostringstream oss (ostringstream::out);
+      oss << "Rock Question " << i;
+      rockQuestions.push_back(oss.str());
+    }
   }
-}
-
-string Game::createRockQuestion(int index)
-{
-  char indexStr[127];
-  sprintf(indexStr, "Rock Question %d", index);
-  return indexStr;
 }
 
 bool Game::isPlayable()
