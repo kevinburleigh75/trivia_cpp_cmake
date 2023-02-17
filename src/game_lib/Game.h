@@ -13,7 +13,6 @@ class Game
 
     bool   isPlayable ();
     bool   add (string playerName);
-    int    howManyPlayers ();
     void   roll (int roll);
     bool   wasCorrectlyAnswered ();
     bool   wrongAnswer ();
@@ -25,11 +24,9 @@ class Game
 
   private:
     vector<string> players;
-
-    int places[6];
-    int purses[6];
-
-    bool inPenaltyBox[6];
+    vector<int>    places;
+    vector<int>    purses;
+    vector<bool>   inPenaltyBox;
 
     list<string> popQuestions;
     list<string> scienceQuestions;

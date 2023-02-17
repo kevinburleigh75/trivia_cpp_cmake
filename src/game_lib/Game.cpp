@@ -8,10 +8,11 @@
 using namespace std;
 
 Game::Game()
-  : places{},
-    purses{},
-    currentPlayer(0)
+  : currentPlayer(0)
 {
+  // BUG: preserving existing behavior (for noe)
+  inPenaltyBox.push_back(true);
+
   for (int i = 0; i < 50; i++)
   {
     {
@@ -42,24 +43,19 @@ Game::Game()
 
 bool Game::isPlayable()
 {
-  return (howManyPlayers() >= 2);
+  return (players.size() >= 2);
 }
 
 bool Game::add(string playerName)
 {
   players.push_back(playerName);
-  places[howManyPlayers()] = 0;
-  purses[howManyPlayers()] = 0;
-  inPenaltyBox[howManyPlayers()] = false;
+  places.push_back(0);
+  purses.push_back(0);
+  inPenaltyBox.push_back(false);
 
   cout << playerName << " was added" << endl;
   cout << "They are player number " << players.size() << endl;
   return true;
-}
-
-int Game::howManyPlayers()
-{
-  return players.size();
 }
 
 void Game::roll(int roll)
@@ -77,10 +73,7 @@ void Game::roll(int roll)
            << " is getting out of the penalty box"
            << endl;
 
-      places[currentPlayer] = places[currentPlayer] + roll;
-      if (places[currentPlayer] > 11) {
-        places[currentPlayer] = places[currentPlayer] - 12;
-      }
+      places[currentPlayer] = (places[currentPlayer] + roll) % 12;
 
       cout << players[currentPlayer]
            << "'s new location is "
@@ -102,10 +95,7 @@ void Game::roll(int roll)
   }
   else
   {
-    places[currentPlayer] = places[currentPlayer] + roll;
-    if (places[currentPlayer] > 11) {
-      places[currentPlayer] = places[currentPlayer] - 12;
-    }
+    places[currentPlayer] = (places[currentPlayer] + roll) % 12;
 
     cout << players[currentPlayer]
          << "'s new location is "
@@ -175,20 +165,14 @@ bool Game::wasCorrectlyAnswered()
            << endl;
 
       bool winner = didPlayerWin();
-      currentPlayer++;
-      if (currentPlayer == players.size()) {
-        currentPlayer = 0;
-      }
+
+      currentPlayer = (currentPlayer + 1) % players.size();
 
       return winner;
     }
     else
     {
-      currentPlayer++;
-      if (currentPlayer == players.size()) {
-        currentPlayer = 0;
-      }
-
+      currentPlayer = (currentPlayer + 1) % players.size();
       return true;
     }
   }
@@ -203,10 +187,8 @@ bool Game::wasCorrectlyAnswered()
          << endl;
 
     bool winner = didPlayerWin();
-    currentPlayer++;
-    if (currentPlayer == players.size()) {
-      currentPlayer = 0;
-    }
+
+    currentPlayer = (currentPlayer + 1) % players.size();
 
     return winner;
   }
@@ -218,15 +200,12 @@ bool Game::wrongAnswer()
   cout << players[currentPlayer] + " was sent to the penalty box" << endl;
   inPenaltyBox[currentPlayer] = true;
 
-  currentPlayer++;
-  if (currentPlayer == players.size()) {
-    currentPlayer = 0;
-  }
+  currentPlayer = (currentPlayer + 1) % players.size();
 
   return true;
 }
 
 bool Game::didPlayerWin()
 {
-  return !(purses[currentPlayer] == 6);
+  return purses[currentPlayer] < 6;
 }
