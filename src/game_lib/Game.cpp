@@ -37,7 +37,7 @@ Game::Game()
       ostringstream oss (ostringstream::out);
       oss << "Rock Question " << i;
       rockQuestions.push_back(oss.str());
-    }
+   }
   }
 }
 
@@ -60,7 +60,8 @@ bool Game::add(string playerName)
 
 void Game::roll(int roll)
 {
-  auto updatePosition = [this](int roll) {
+  auto updatePosition = [this](int roll)
+  {
     places[currentPlayer] = (places[currentPlayer] + roll) % 12;
 
     cout << players[currentPlayer]
@@ -75,28 +76,22 @@ void Game::roll(int roll)
   cout << players[currentPlayer] << " is the current player" << endl;
   cout << "They have rolled a " << roll << endl;
 
+  bool should_move_and_ask_question = true;
+
   if (inPenaltyBox[currentPlayer])
   {
     isGettingOutOfPenaltyBox = (roll % 2);
 
-    if (isGettingOutOfPenaltyBox)
-    {
-      cout << players[currentPlayer]
-           << " is getting out of the penalty box"
-           << endl;
+    string modifier = isGettingOutOfPenaltyBox ? "" : "not ";
+    cout << players[currentPlayer]
+         << " is " << modifier
+         << "getting out of the penalty box"
+         << endl;
 
-      updatePosition(roll);
-      askQuestion();
-    }
-    else
-    {
-      cout << players[currentPlayer]
-           << " is not getting out of the penalty box"
-           << endl;
-    }
+    should_move_and_ask_question = isGettingOutOfPenaltyBox;
   }
-  else
-  {
+
+  if (should_move_and_ask_question) { 
     updatePosition(roll);
     askQuestion();
   }
