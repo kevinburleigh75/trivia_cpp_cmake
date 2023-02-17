@@ -132,14 +132,9 @@ string Game::currentCategory()
 
 bool Game::handleCorrectAnswer ()
 {
-  auto award_points = [this](int currentPlayer, bool correct_spelling) -> bool
+  auto award_points = [this]() -> bool
   {
-    if (correct_spelling) {
-      cout << "Answer was correct!!!!" << endl;
-    }
-    else {
-      cout << "Answer was corrent!!!!" << endl;
-    }
+    cout << "Answer was correct!!!!" << endl;
 
     purses[currentPlayer]++;
 
@@ -155,10 +150,7 @@ bool Game::handleCorrectAnswer ()
   bool still_no_winner = true;
 
   if (!inPenaltyBox[currentPlayer] || isGettingOutOfPenaltyBox) {
-    still_no_winner = award_points(
-      currentPlayer,
-      inPenaltyBox[currentPlayer]
-    );
+    still_no_winner = award_points();
   }
 
   return still_no_winner;
