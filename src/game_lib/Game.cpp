@@ -142,48 +142,39 @@ string Game::currentCategory()
   return  categories[places[currentPlayer] % 4];
 }
 
-bool Game::wasCorrectlyAnswered()
+bool Game::wasCorrectlyAnswered ()
 {
-  if (inPenaltyBox[currentPlayer])
+  auto award_points = [this](int currentPlayer, bool misspell) -> bool
   {
-    if (isGettingOutOfPenaltyBox)
-    {
+    if (misspell) {
+      cout << "Answer was corrent!!!!" << endl;
+    }
+    else {
       cout << "Answer was correct!!!!" << endl;
-      purses[currentPlayer]++;
-      cout << players[currentPlayer]
-           << " now has "
-           << purses[currentPlayer]
-           <<  " Gold Coins."
-           << endl;
-
-      bool no_winner = stillNoWinner();
-
-      currentPlayer = (currentPlayer + 1) % players.size();
-
-      return no_winner;
     }
-    else
-    {
-      currentPlayer = (currentPlayer + 1) % players.size();
-      return true;
-    }
-  }
-  else
-  {
-    cout << "Answer was corrent!!!!" << endl;
+
     purses[currentPlayer]++;
+
     cout << players[currentPlayer]
          << " now has "
          << purses[currentPlayer]
-         << " Gold Coins."
+         <<  " Gold Coins."
          << endl;
 
-    bool no_winner = stillNoWinner();
+    return stillNoWinner();
+  };
 
-    currentPlayer = (currentPlayer + 1) % players.size();
+  bool still_no_winner = true;
 
-    return no_winner;
+  if (!inPenaltyBox[currentPlayer] || isGettingOutOfPenaltyBox) {
+    still_no_winner = award_points(
+      currentPlayer,
+      !inPenaltyBox[currentPlayer]
+    );
   }
+
+  currentPlayer = (currentPlayer + 1) % players.size();
+  return still_no_winner;
 }
 
 bool Game::wrongAnswer()
