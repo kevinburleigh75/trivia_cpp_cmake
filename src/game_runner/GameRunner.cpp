@@ -1,8 +1,8 @@
-﻿#include <stdlib.h>
+﻿#include <cstdlib>
 
 #include "Game.h"
 
-static bool notAWinner;
+using namespace std;
 
 int main(int argc, char** argv)
 {
@@ -19,6 +19,8 @@ int main(int argc, char** argv)
   aGame.add("Chet");
   aGame.add("Pat");
   aGame.add("Sue");
+
+  bool notAWinner = true;
 
   do
   {

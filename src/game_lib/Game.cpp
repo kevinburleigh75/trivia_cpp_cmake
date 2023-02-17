@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -15,7 +16,6 @@ Game::Game()
   {
     ostringstream oss (ostringstream::out);
     oss << "Pop Question " << i;
-
     popQuestions.push_back(oss.str());
 
     char str[255];
@@ -70,19 +70,30 @@ void Game::roll(int roll)
     {
       isGettingOutOfPenaltyBox = true;
 
-      cout << players[currentPlayer] << " is getting out of the penalty box" << endl;
+      cout << players[currentPlayer]
+           << " is getting out of the penalty box"
+           << endl;
+
       places[currentPlayer] = places[currentPlayer] + roll;
       if (places[currentPlayer] > 11) {
         places[currentPlayer] = places[currentPlayer] - 12;
       }
 
-      cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-      cout << "The category is " << currentCategory() << endl;
+      cout << players[currentPlayer]
+           << "'s new location is "
+           << places[currentPlayer]
+           << endl;
+      cout << "The category is "
+           << currentCategory()
+           << endl;
+
       askQuestion();
     }
     else
     {
-      cout << players[currentPlayer] << " is not getting out of the penalty box" << endl;
+      cout << players[currentPlayer]
+           << " is not getting out of the penalty box"
+           << endl;
       isGettingOutOfPenaltyBox = false;
     }
   }
@@ -93,8 +104,14 @@ void Game::roll(int roll)
       places[currentPlayer] = places[currentPlayer] - 12;
     }
 
-    cout << players[currentPlayer] << "'s new location is " << places[currentPlayer] << endl;
-    cout << "The category is " << currentCategory() << endl;
+    cout << players[currentPlayer]
+         << "'s new location is "
+         << places[currentPlayer]
+         << endl;
+    cout << "The category is "
+         << currentCategory()
+         << endl;
+
     askQuestion();
   }
 }
@@ -205,7 +222,6 @@ bool Game::wrongAnswer()
 
   return true;
 }
-
 
 bool Game::didPlayerWin()
 {
