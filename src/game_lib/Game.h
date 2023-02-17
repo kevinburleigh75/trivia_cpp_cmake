@@ -14,8 +14,9 @@ class Game
     bool   isPlayable ();
     bool   add (string playerName);
     void   roll (int roll);
-    bool   wasCorrectlyAnswered ();
-    bool   wrongAnswer ();
+    bool   handleCorrectAnswer ();
+    bool   handleIncorrectAnswer ();
+    void   advanceCurrentPlayer ();
 
   private:
     void   askQuestion ();

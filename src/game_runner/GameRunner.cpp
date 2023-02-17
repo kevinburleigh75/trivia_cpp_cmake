@@ -22,15 +22,19 @@ int main(int argc, char** argv)
 
   bool still_no_winner = true;
 
-  do
+  while (still_no_winner)
   {
     aGame.roll(rand() % 5 + 1);
 
     if (rand() % 9 == 7) {
-      still_no_winner = aGame.wrongAnswer();
+      still_no_winner = aGame.handleIncorrectAnswer();
     }
     else {
-      still_no_winner = aGame.wasCorrectlyAnswered();
+      still_no_winner = aGame.handleCorrectAnswer();
     }
-  } while (still_no_winner);
+
+    if (still_no_winner) {
+      aGame.advanceCurrentPlayer();
+    }
+  }
 }

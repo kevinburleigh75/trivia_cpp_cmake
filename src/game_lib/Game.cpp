@@ -60,41 +60,7 @@ bool Game::add(string playerName)
 
 void Game::roll(int roll)
 {
-  cout << players[currentPlayer] << " is the current player" << endl;
-  cout << "They have rolled a " << roll << endl;
-
-  if (inPenaltyBox[currentPlayer])
-  {
-    if (roll % 2 != 0)
-    {
-      isGettingOutOfPenaltyBox = true;
-
-      cout << players[currentPlayer]
-           << " is getting out of the penalty box"
-           << endl;
-
-      places[currentPlayer] = (places[currentPlayer] + roll) % 12;
-
-      cout << players[currentPlayer]
-           << "'s new location is "
-           << places[currentPlayer]
-           << endl;
-      cout << "The category is "
-           << currentCategory()
-           << endl;
-
-      askQuestion();
-    }
-    else
-    {
-      cout << players[currentPlayer]
-           << " is not getting out of the penalty box"
-           << endl;
-      isGettingOutOfPenaltyBox = false;
-    }
-  }
-  else
-  {
+  auto updatePosition = [this](int roll) {
     places[currentPlayer] = (places[currentPlayer] + roll) % 12;
 
     cout << players[currentPlayer]
@@ -104,7 +70,34 @@ void Game::roll(int roll)
     cout << "The category is "
          << currentCategory()
          << endl;
+  };
 
+  cout << players[currentPlayer] << " is the current player" << endl;
+  cout << "They have rolled a " << roll << endl;
+
+  if (inPenaltyBox[currentPlayer])
+  {
+    isGettingOutOfPenaltyBox = (roll % 2);
+
+    if (isGettingOutOfPenaltyBox)
+    {
+      cout << players[currentPlayer]
+           << " is getting out of the penalty box"
+           << endl;
+
+      updatePosition(roll);
+      askQuestion();
+    }
+    else
+    {
+      cout << players[currentPlayer]
+           << " is not getting out of the penalty box"
+           << endl;
+    }
+  }
+  else
+  {
+    updatePosition(roll);
     askQuestion();
   }
 }
@@ -142,15 +135,15 @@ string Game::currentCategory()
   return  categories[places[currentPlayer] % 4];
 }
 
-bool Game::wasCorrectlyAnswered ()
+bool Game::handleCorrectAnswer ()
 {
-  auto award_points = [this](int currentPlayer, bool misspell) -> bool
+  auto award_points = [this](int currentPlayer, bool correct_spelling) -> bool
   {
-    if (misspell) {
-      cout << "Answer was corrent!!!!" << endl;
+    if (correct_spelling) {
+      cout << "Answer was correct!!!!" << endl;
     }
     else {
-      cout << "Answer was correct!!!!" << endl;
+      cout << "Answer was corrent!!!!" << endl;
     }
 
     purses[currentPlayer]++;
@@ -169,26 +162,31 @@ bool Game::wasCorrectlyAnswered ()
   if (!inPenaltyBox[currentPlayer] || isGettingOutOfPenaltyBox) {
     still_no_winner = award_points(
       currentPlayer,
-      !inPenaltyBox[currentPlayer]
+      inPenaltyBox[currentPlayer]
     );
   }
 
-  currentPlayer = (currentPlayer + 1) % players.size();
   return still_no_winner;
 }
 
-bool Game::wrongAnswer()
+bool Game::handleIncorrectAnswer ()
 {
   cout << "Question was incorrectly answered" << endl;
   cout << players[currentPlayer] + " was sent to the penalty box" << endl;
+
   inPenaltyBox[currentPlayer] = true;
 
-  currentPlayer = (currentPlayer + 1) % players.size();
+  bool still_no_winner = true;
 
-  return true;
+  return still_no_winner;
 }
 
 bool Game::stillNoWinner()
 {
   return purses[currentPlayer] < 6;
+}
+
+void Game::advanceCurrentPlayer ()
+{
+  currentPlayer = (currentPlayer + 1) % players.size();
 }
