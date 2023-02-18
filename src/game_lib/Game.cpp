@@ -104,23 +104,23 @@ void Game::askQuestion()
     cout << popQuestions.front() << endl;
     popQuestions.pop_front();
   }
-
-  if (currentCategory() == "Science")
+  else if (currentCategory() == "Science")
   {
     cout << scienceQuestions.front() << endl;
     scienceQuestions.pop_front();
   }
-
-  if (currentCategory() == "Sports")
+  else if (currentCategory() == "Sports")
   {
     cout << sportsQuestions.front() << endl;
     sportsQuestions.pop_front();
   }
-
-  if (currentCategory() == "Rock")
+  else if (currentCategory() == "Rock")
   {
     cout << rockQuestions.front() << endl;
     rockQuestions.pop_front();
+  }
+  else {
+    throw runtime_error("invalid question category");
   }
 }
 
