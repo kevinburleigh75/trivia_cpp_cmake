@@ -8,7 +8,8 @@
 using namespace std;
 
 Game::Game()
-  : currentPlayer(0)
+  : m_continuePlaying(false),
+    currentPlayer(0)
 {
   // BUG: preserving existing behavior (for noe)
   inPenaltyBox.push_back(true);
@@ -46,16 +47,23 @@ bool Game::isPlayable()
   return (players.size() >= 2);
 }
 
-bool Game::add(string playerName)
+bool Game::addPlayer (string playerName)
 {
   players.push_back(playerName);
   places.push_back(0);
   purses.push_back(0);
   inPenaltyBox.push_back(false);
 
+  m_continuePlaying = true;
+
   cout << playerName << " was added" << endl;
   cout << "They are player number " << players.size() << endl;
   return true;
+}
+
+bool Game::continuePlaying ()
+{
+  return m_continuePlaying;
 }
 
 void Game::roll(int roll)
@@ -130,7 +138,7 @@ string Game::currentCategory()
   return  categories[places[currentPlayer] % 4];
 }
 
-bool Game::handleCorrectAnswer ()
+void Game::handleCorrectAnswer ()
 {
   auto award_points = [this]() -> bool
   {
@@ -147,25 +155,21 @@ bool Game::handleCorrectAnswer ()
     return stillNoWinner();
   };
 
-  bool still_no_winner = true;
+  m_continuePlaying = true;
 
   if (!inPenaltyBox[currentPlayer] || isGettingOutOfPenaltyBox) {
-    still_no_winner = award_points();
+    m_continuePlaying = award_points();
   }
-
-  return still_no_winner;
 }
 
-bool Game::handleIncorrectAnswer ()
+void Game::handleIncorrectAnswer ()
 {
   cout << "Question was incorrectly answered" << endl;
   cout << players[currentPlayer] + " was sent to the penalty box" << endl;
 
   inPenaltyBox[currentPlayer] = true;
 
-  bool still_no_winner = true;
-
-  return still_no_winner;
+  m_continuePlaying = true;
 }
 
 bool Game::stillNoWinner()

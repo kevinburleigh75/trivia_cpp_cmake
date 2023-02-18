@@ -11,11 +11,13 @@ class Game
   public:
     Game();
 
+    bool   addPlayer (string playerName);
+    bool   continuePlaying ();
+
     bool   isPlayable ();
-    bool   add (string playerName);
     void   roll (int roll);
-    bool   handleCorrectAnswer ();
-    bool   handleIncorrectAnswer ();
+    void   handleCorrectAnswer ();
+    void   handleIncorrectAnswer ();
     void   advanceCurrentPlayer ();
 
   private:
@@ -34,6 +36,7 @@ class Game
     list<string> sportsQuestions;
     list<string> rockQuestions;
 
+    bool m_continuePlaying;
     unsigned int currentPlayer;
     bool isGettingOutOfPenaltyBox;
 };

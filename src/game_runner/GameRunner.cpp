@@ -14,27 +14,25 @@ int main(int argc, char** argv)
     srand(seed);
   }
 
-  Game aGame;
+  Game game;
 
-  aGame.add("Chet");
-  aGame.add("Pat");
-  aGame.add("Sue");
+  game.addPlayer("Chet");
+  game.addPlayer("Pat");
+  game.addPlayer("Sue");
 
-  bool still_no_winner = true;
-
-  while (still_no_winner)
+  while (game.continuePlaying())
   {
-    aGame.roll(rand() % 5 + 1);
+    game.roll(rand() % 5 + 1);
 
     if (rand() % 9 == 7) {
-      still_no_winner = aGame.handleIncorrectAnswer();
+      game.handleIncorrectAnswer();
     }
     else {
-      still_no_winner = aGame.handleCorrectAnswer();
+      game.handleCorrectAnswer();
     }
 
-    if (still_no_winner) {
-      aGame.advanceCurrentPlayer();
+    if (game.continuePlaying()) {
+      game.advanceCurrentPlayer();
     }
   }
 }
